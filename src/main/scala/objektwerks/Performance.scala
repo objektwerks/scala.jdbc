@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit
 import org.openjdk.jmh.annotations._
 
 object Performance:
-  val conf = ConfigFactory.load("app.conf")
+  val conf = ConfigFactory.load("store.conf")
   val store = Store(conf)
 
 @State(Scope.Thread)
