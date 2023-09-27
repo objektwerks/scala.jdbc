@@ -8,6 +8,7 @@ import javax.sql.DataSource
 
 import org.h2.jdbcx.JdbcConnectionPool
 
+import scala.collection.mutable
 import scala.util.Using
 
 private object Store:
@@ -27,7 +28,7 @@ private object Store:
     ds
 
 class Store(config: Config):
-  private val _: DataSource = Store.createDataSource(config)
+  private val ds: DataSource = Store.createDataSource(config)
 
   def addTodo(todo: Todo): Todo =
     //"insert into todo(task) values(${todo.task})"
@@ -38,5 +39,16 @@ class Store(config: Config):
     true
 
   def listTodos(): Seq[Todo] =
-    //"select * from todo"
-    List.empty[Todo]
+    val todos = mutable.ListBuffer[Todo]()
+    Using.Manager( use =>
+      val connection = use( ds.getConnection )
+      val statement = use( connection.createStatement )
+      val resultset = statement.executeQuery("select * from todo")
+      while (resultset.next()) {
+        val id = resultset.getInt(1)
+        val task = resultset.getString(2)
+        val todo = Todo(id, task)
+        todos += todo
+      }
+    )
+    todos.toList
