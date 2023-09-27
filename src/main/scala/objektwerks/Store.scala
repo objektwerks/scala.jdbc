@@ -30,21 +30,9 @@ private object Store:
 
 final class Store(config: Config):
   private val ds: DataSource = Store.createDataSource(config)
-  private val addTodoQuery = Using(
-    ds
-      .getConnection()
-      .prepareStatement("insert into todo(task) values(?)", Statement.RETURN_GENERATED_KEYS) 
-  ) { ps => ps }.get
-  private val updateTodoQuery = Using(
-    ds
-      .getConnection()
-      .prepareStatement("update todo set task = ? where id = ?")
-  ) { ps => ps }.get
-  private val listTodosQuery = Using(
-    ds
-      .getConnection()
-      .prepareStatement("select * from todo")
-  ) { ps => ps }.get
+  private val addTodoQuery = ds.getConnection().prepareStatement("insert into todo(task) values(?)", Statement.RETURN_GENERATED_KEYS) 
+  private val updateTodoQuery = ds.getConnection().prepareStatement("update todo set task = ? where id = ?")
+  private val listTodosQuery = ds.getConnection().prepareStatement("select * from todo")
 
   def addTodo(todo: Todo): Todo =
     addTodoQuery.setString(1, todo.task)
