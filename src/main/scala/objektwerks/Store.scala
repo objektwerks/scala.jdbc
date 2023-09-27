@@ -29,9 +29,9 @@ private object Store:
 class Store(config: Config):
   private val _: DataSource = Store.createDataSource(config)
 
-  def addTodo(todo: Todo): Int =
+  def addTodo(todo: Todo): Todo =
     //"insert into todo(task) values(${todo.task})"
-    1
+    Todo(task = "")
 
   def updateTodo(todo: Todo): Boolean =
     //"update todo set task = ${todo.task} where id = ${todo.id}"

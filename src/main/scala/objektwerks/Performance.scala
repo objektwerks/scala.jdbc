@@ -23,11 +23,10 @@ class Performance():
   var todo = Todo(task = "")
 
   @Benchmark
-  def addTodo(): Int =
+  def addTodo(): Todo =
     todo = Todo(task = UUID.randomUUID.toString)
-    val id = store.addTodo(todo)
-    todo.copy(id = id)
-    id
+    todo = store.addTodo(todo)
+    todo
 
   @Benchmark
   def updateTodo(): Boolean =
