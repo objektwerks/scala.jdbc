@@ -5,7 +5,7 @@ import com.typesafe.config.ConfigFactory
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 
-import org.openjdk.jmh.annotations._
+import org.openjdk.jmh.annotations.*
 
 object Performance:
   val conf = ConfigFactory.load("store.conf")
