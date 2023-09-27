@@ -30,15 +30,14 @@ class Store(conf: Config):
   private val ds: DataSource = Store.createDataSource(config)
 
   def addTodo(todo: Todo): Int =
-    DB localTx { implicit session =>
-      sql"insert into todo(task) values(${todo.task})".updateAndReturnGeneratedKey().toInt
-    }
+    "insert into todo(task) values(${todo.task})"
+    1
 
-  def updateTodo(todo: Todo): Unit =
+  def updateTodo(todo: Todo): Boolean =
     DB localTx { implicit session =>
       sql"update todo set task = ${todo.task} where id = ${todo.id}".update()
     }
-    ()
+    true
 
   def listTodos(): Seq[Todo] =
     DB readOnly { implicit session =>
