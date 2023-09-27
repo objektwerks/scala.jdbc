@@ -36,8 +36,8 @@ class Store(config: Config):
   def addTodo(todo: Todo): Todo =
     Todo(task = "")
 
-  def updateTodo(todo: Todo): Boolean =
-    true
+  def updateTodo(todo: Todo): Int =
+    updateTodoQuery.executeUpdate()
 
   def listTodos(): Seq[Todo] =
     val todos = mutable.ListBuffer[Todo]()
