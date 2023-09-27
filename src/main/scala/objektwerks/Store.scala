@@ -2,8 +2,7 @@ package objektwerks
 
 import com.typesafe.config.Config
 
-import java.nio.file.Files
-import java.nio.file.Path
+import java.nio.file.{Files, Path}
 import java.sql.Statement
 import javax.sql.DataSource
 
