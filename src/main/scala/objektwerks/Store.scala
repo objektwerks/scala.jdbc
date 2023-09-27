@@ -34,6 +34,8 @@ class Store(config: Config):
   private val listTodosQuery = Using( ds.getConnection().prepareStatement("select * from todo") ) { ps => ps }.get
 
   def addTodo(todo: Todo): Todo =
+    addTodoQuery.setString(1, todo.task)
+    addTodoQuery.executeUpdate()
     Todo(task = "")
 
   def updateTodo(todo: Todo): Int =
