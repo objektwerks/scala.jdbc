@@ -1,3 +1,3 @@
 package objektwerks
 
-case class Todo(id: Int = 0, task: String)
+case class Todo(id: Int, task: String)
