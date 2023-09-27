@@ -6,19 +6,18 @@ import org.scalatest.funsuite.AnyFunSuite
 
 final class StoreTest extends AnyFunSuite:
   val conf = ConfigFactory.load("test.conf")
+  val store = Store(conf)
 
   test("store"):
-    val store = Store(conf)
-
     val todo = Todo(task = "wash car")
     val id = store.addTodo(todo)
-    println(s"*** Id = $id")
+    println(s"*** Add Todo - $id")
     assert( id > 0 )
 
     val todoWithId = todo.copy(id = id)
-    println(s"*** Todo = $todoWithId")
+    println(s"*** Update Todo - $todoWithId")
     store.updateTodo(todoWithId.copy(task = "wash and dry car"))
     
     val todos = store.listTodos()
-    println(s"*** Todos = ${todos.toString}")
+    println(s"*** List Todos = ${todos.toString}")
     assert( todos.nonEmpty )
