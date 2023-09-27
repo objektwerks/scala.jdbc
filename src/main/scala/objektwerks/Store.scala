@@ -26,17 +26,17 @@ private object Store:
     )
     ds
 
-class Store(conf: Config):
-  private val ds: DataSource = Store.createDataSource(config)
+class Store(config: Config):
+  private val _: DataSource = Store.createDataSource(config)
 
   def addTodo(todo: Todo): Int =
-    "insert into todo(task) values(${todo.task})"
+    //"insert into todo(task) values(${todo.task})"
     1
 
   def updateTodo(todo: Todo): Boolean =
-    "update todo set task = ${todo.task} where id = ${todo.id}"
+    //"update todo set task = ${todo.task} where id = ${todo.id}"
     true
 
   def listTodos(): Seq[Todo] =
-    "select * from todo"
+    //"select * from todo"
     List.empty[Todo]
