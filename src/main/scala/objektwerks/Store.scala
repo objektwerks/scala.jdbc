@@ -29,26 +29,23 @@ private object Store:
 
 class Store(config: Config):
   private val ds: DataSource = Store.createDataSource(config)
+  private val addTodoQuery = Using( ds.getConnection().prepareStatement("insert into todo(task) values(?)") ) { ps => ps }.get
+  private val updateTodoQuery = Using( ds.getConnection().prepareStatement("update todo set task = ? where id = ?") ) { ps => ps }.get
+  private val listTodosQuery = Using( ds.getConnection().prepareStatement("select * from todo") ) { ps => ps }.get
 
   def addTodo(todo: Todo): Todo =
-    //"insert into todo(task) values(${todo.task})"
     Todo(task = "")
 
   def updateTodo(todo: Todo): Boolean =
-    //"update todo set task = ${todo.task} where id = ${todo.id}"
     true
 
   def listTodos(): Seq[Todo] =
     val todos = mutable.ListBuffer[Todo]()
-    Using.Manager( use =>
-      val connection = use( ds.getConnection )
-      val statement = use( connection.createStatement )
-      val resultset = statement.executeQuery("select * from todo")
-      while (resultset.next()) {
-        val id = resultset.getInt(1)
-        val task = resultset.getString(2)
-        val todo = Todo(id, task)
-        todos += todo
-      }
-    )
+    val resultset = listTodosQuery.executeQuery()
+    while (resultset.next()) {
+      val id = resultset.getInt(1)
+      val task = resultset.getString(2)
+      val todo = Todo(id, task)
+      todos += todo
+    }
     todos.toList
