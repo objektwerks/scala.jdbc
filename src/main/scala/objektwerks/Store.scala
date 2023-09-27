@@ -34,6 +34,9 @@ final class Store(config: Config):
   private val updateTodoQuery = ds.getConnection().prepareStatement("update todo set task = ? where id = ?")
   private val listTodosQuery = ds.getConnection().prepareStatement("select * from todo")
 
+  def close(): Unit =
+    ds.asInstanceOf[JdbcConnectionPool].dispose()
+
   def addTodo(todo: Todo): Todo =
     addTodoQuery.setString(1, todo.task)
     addTodoQuery.executeUpdate()
