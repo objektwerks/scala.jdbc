@@ -1,6 +1,6 @@
 Scala Jdbc
 ----------
-Jdbc feature tests using Scala 3.
+Jdbc feature test and performance benchmark against H2 and Scala 3.
 
 Test
 ----
