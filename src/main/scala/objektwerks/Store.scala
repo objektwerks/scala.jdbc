@@ -37,6 +37,8 @@ class Store(config: Config):
     Todo(task = "")
 
   def updateTodo(todo: Todo): Int =
+    updateTodoQuery.setString(1, todo.task)
+    updateTodoQuery.setInt(2, todo.id)
     updateTodoQuery.executeUpdate()
 
   def listTodos(): Seq[Todo] =
