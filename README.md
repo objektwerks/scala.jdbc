@@ -10,7 +10,7 @@ Benchmark
 ---------
 >See Performance class for details.
 1. sbt jmh:run
->**Warning:** Using JDK 9-21 and sbt-jmh 46, throws: java.lang.ClassNotFoundException: javax.sql.DataSource
+>**Warning:** Using JDK 9-21 and sbt-jmh 46, throws: java.lang.ClassNotFoundException: javax/sql/DataSource
 
 >**See:** [Benchmark compilation fails if java.sql.ResultSet is used #192](https://github.com/sbt/sbt-jmh/issues/192)
 
