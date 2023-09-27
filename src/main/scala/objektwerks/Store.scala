@@ -34,14 +34,9 @@ class Store(conf: Config):
     1
 
   def updateTodo(todo: Todo): Boolean =
-    DB localTx { implicit session =>
-      sql"update todo set task = ${todo.task} where id = ${todo.id}".update()
-    }
+    "update todo set task = ${todo.task} where id = ${todo.id}"
     true
 
   def listTodos(): Seq[Todo] =
-    DB readOnly { implicit session =>
-      sql"select * from todo"
-        .map(rs => Todo( rs.int("id"), rs.string("task") ) )
-        .list()
-    }
+    "select * from todo"
+    List.empty[Todo]
