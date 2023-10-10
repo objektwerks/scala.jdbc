@@ -29,7 +29,6 @@ private object Store:
 
 final class Store(config: Config):
   private val ds: DataSource = Store.createDataSource(config)
-  private val updateTodoQuery = ds.getConnection().prepareStatement("update todo set task = ? where id = ?")
   private val listTodosQuery = ds.getConnection().prepareStatement("select * from todo")
 
   def close(): Unit =
@@ -45,6 +44,7 @@ final class Store(config: Config):
     todo.copy(id = id)
 
   def updateTodo(todo: Todo): Int =
+    val updateTodoQuery = ds.getConnection().prepareStatement("update todo set task = ? where id = ?")
     updateTodoQuery.setString(1, todo.task)
     updateTodoQuery.setInt(2, todo.id)
     updateTodoQuery.executeUpdate()
