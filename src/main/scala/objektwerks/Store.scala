@@ -29,7 +29,6 @@ private object Store:
 
 final class Store(config: Config):
   private val ds: DataSource = Store.createDataSource(config)
-  private val listTodosQuery = ds.getConnection().prepareStatement("select * from todo")
 
   def close(): Unit =
     ds.asInstanceOf[JdbcConnectionPool].dispose()
@@ -51,6 +50,7 @@ final class Store(config: Config):
 
   def listTodos(): Seq[Todo] =
     val todos = mutable.ListBuffer[Todo]()
+    val listTodosQuery = ds.getConnection().prepareStatement("select * from todo")
     val resultset = listTodosQuery.executeQuery()
     while (resultset.next()) {
       val id = resultset.getInt(1)
