@@ -34,7 +34,9 @@ final class Store(config: Config):
     ds.asInstanceOf[JdbcConnectionPool].dispose()
 
   def addTodo(todo: Todo): Todo =
-    val addTodoQuery = ds.getConnection().prepareStatement("insert into todo(task) values(?)", Statement.RETURN_GENERATED_KEYS) 
+    val addTodoQuery = ds
+      .getConnection
+      .prepareStatement("insert into todo(task) values(?)", Statement.RETURN_GENERATED_KEYS) 
     addTodoQuery.setString(1, todo.task)
     addTodoQuery.executeUpdate()
     val resultset = addTodoQuery.getGeneratedKeys()
@@ -43,14 +45,18 @@ final class Store(config: Config):
     todo.copy(id = id)
 
   def updateTodo(todo: Todo): Int =
-    val updateTodoQuery = ds.getConnection().prepareStatement("update todo set task = ? where id = ?")
+    val updateTodoQuery = ds
+      .getConnection
+      .prepareStatement("update todo set task = ? where id = ?")
     updateTodoQuery.setString(1, todo.task)
     updateTodoQuery.setInt(2, todo.id)
     updateTodoQuery.executeUpdate()
 
   def listTodos(): Seq[Todo] =
     val todos = mutable.ListBuffer[Todo]()
-    val listTodosQuery = ds.getConnection().prepareStatement("select * from todo")
+    val listTodosQuery = ds
+      .getConnection
+      .prepareStatement("select * from todo")
     val resultset = listTodosQuery.executeQuery()
     while (resultset.next()) {
       val id = resultset.getInt(1)
