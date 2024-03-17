@@ -3,7 +3,7 @@ enablePlugins(JmhPlugin)
 name := "scala.jdbc"
 organization := "objektwerks"
 version := "0.1-SNAPSHOT"
-scalaVersion := "3.4.1-RC1"
+scalaVersion := "3.4.1-RC2"
 libraryDependencies ++= {
   Seq(
     "com.h2database" % "h2" % "2.2.224",
