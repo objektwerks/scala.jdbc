@@ -17,4 +17,4 @@ Results
 1. addTodo - 4.455
 2. listTodos - 1.901
 3. updateTodo - 3.648
->Total time: 604 s (10:04), 10 warmups, 10 iterations, average time in microseconds, completed **2024.3.21**
+>Total time: 604 s (10:04), 10 warmups, 10 iterations, average time in microseconds, completed **2024.3.22**
