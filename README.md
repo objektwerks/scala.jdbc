@@ -13,6 +13,8 @@ Benchmark
 
 Results
 -------
+>The following exception occurs when running the benchmark: **SQLException: Login timed out**
+
 >OpenJDK Runtime Environment Zulu22.28+91-CA (build 22+36), **Scala 3.4.1-RC2**, Apple M1
 1. addTodo - 0.0
 2. listTodos - 0.0
