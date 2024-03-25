@@ -58,9 +58,9 @@ final class Store(config: Config):
   def listTodos(): Seq[Todo] =
     Using.Manager( use =>
       val connection = use( ds.getConnection )
-      val todos = mutable.ListBuffer[Todo]()
-      val listTodosQuery =connection.prepareStatement("select * from todo")
+      val listTodosQuery = use( connection.prepareStatement("select * from todo") )
       val resultset = listTodosQuery.executeQuery()
+      val todos = mutable.ListBuffer[Todo]()
       while (resultset.next()) {
         val id = resultset.getInt(1)
         val task = resultset.getString(2)
