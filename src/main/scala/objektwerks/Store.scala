@@ -48,7 +48,7 @@ final class Store(config: Config):
   def updateTodo(todo: Todo): Int =
     Using.Manager( use =>
       val connection = use( ds.getConnection )
-      val updateTodoQuery = connection.prepareStatement("update todo set task = ? where id = ?")
+      val updateTodoQuery = use( connection.prepareStatement("update todo set task = ? where id = ?") )
       updateTodoQuery.setString(1, todo.task)
       updateTodoQuery.setInt(2, todo.id)
       updateTodoQuery.executeUpdate()
