@@ -36,7 +36,7 @@ final class Store(config: Config):
   def addTodo(todo: Todo): Todo =
     Using.Manager( use =>
       val connection = use( ds.getConnection )
-      val addTodoQuery = connection.prepareStatement("insert into todo(task) values(?)", Statement.RETURN_GENERATED_KEYS) 
+      val addTodoQuery = use( connection.prepareStatement("insert into todo(task) values(?)", Statement.RETURN_GENERATED_KEYS) )
       addTodoQuery.setString(1, todo.task)
       addTodoQuery.executeUpdate()
       val resultset = addTodoQuery.getGeneratedKeys()
