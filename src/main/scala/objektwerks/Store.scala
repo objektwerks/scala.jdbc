@@ -56,15 +56,16 @@ final class Store(config: Config):
 
 
   def listTodos(): Seq[Todo] =
-    val todos = mutable.ListBuffer[Todo]()
-    val listTodosQuery = ds
-      .getConnection
-      .prepareStatement("select * from todo")
-    val resultset = listTodosQuery.executeQuery()
-    while (resultset.next()) {
-      val id = resultset.getInt(1)
-      val task = resultset.getString(2)
-      val todo = Todo(id, task)
-      todos += todo
-    }
-    todos.toList
+    Using.Manager( use =>
+      val connection = use( ds.getConnection )
+      val todos = mutable.ListBuffer[Todo]()
+      val listTodosQuery =connection.prepareStatement("select * from todo")
+      val resultset = listTodosQuery.executeQuery()
+      while (resultset.next()) {
+        val id = resultset.getInt(1)
+        val task = resultset.getString(2)
+        val todo = Todo(id, task)
+        todos += todo
+      }
+      todos.toList
+    ).get
