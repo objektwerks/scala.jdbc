@@ -46,12 +46,14 @@ final class Store(config: Config):
     ).get
 
   def updateTodo(todo: Todo): Int =
-    val updateTodoQuery = ds
-      .getConnection
-      .prepareStatement("update todo set task = ? where id = ?")
-    updateTodoQuery.setString(1, todo.task)
-    updateTodoQuery.setInt(2, todo.id)
-    updateTodoQuery.executeUpdate()
+    Using.Manager( use =>
+      val connection = use( ds.getConnection )
+      val updateTodoQuery = connection.prepareStatement("update todo set task = ? where id = ?")
+      updateTodoQuery.setString(1, todo.task)
+      updateTodoQuery.setInt(2, todo.id)
+      updateTodoQuery.executeUpdate()
+    ).get
+
 
   def listTodos(): Seq[Todo] =
     val todos = mutable.ListBuffer[Todo]()
