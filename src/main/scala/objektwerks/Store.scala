@@ -34,15 +34,16 @@ final class Store(config: Config):
     ds.asInstanceOf[JdbcConnectionPool].dispose()
 
   def addTodo(todo: Todo): Todo =
-    val addTodoQuery = ds
-      .getConnection
-      .prepareStatement("insert into todo(task) values(?)", Statement.RETURN_GENERATED_KEYS) 
-    addTodoQuery.setString(1, todo.task)
-    addTodoQuery.executeUpdate()
-    val resultset = addTodoQuery.getGeneratedKeys()
-    resultset.next()
-    val id = resultset.getInt(1)
-    todo.copy(id = id)
+    Using.Manager( use =>
+      val connection = use( ds.getConnection )
+      val addTodoQuery = connection.prepareStatement("insert into todo(task) values(?)", Statement.RETURN_GENERATED_KEYS) 
+      addTodoQuery.setString(1, todo.task)
+      addTodoQuery.executeUpdate()
+      val resultset = addTodoQuery.getGeneratedKeys()
+      resultset.next()
+      val id = resultset.getInt(1)
+      todo.copy(id = id)
+    ).get
 
   def updateTodo(todo: Todo): Int =
     val updateTodoQuery = ds
